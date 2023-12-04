@@ -46,51 +46,51 @@ class FilesController {
       parentId: fileParentId
     };
 
-//     if (['folder'].includes(fileType)) {
-//       await DBClient.db.collection('files').insertOne(fileDataDb);
-//       return response.status(201).send({
-//         id: fileDataDb._id,
-//         userId: fileDataDb.userId,
-//         name: fileDataDb.name,
-//         type: fileDataDb.type,
-//         isPublic: fileDataDb.isPublic,
-//         parentId: fileDataDb.parentId
-//       });
-//     }
+    if (['folder'].includes(fileType)) {
+      await DBClient.db.collection('files').insertOne(fileDataDb);
+      return response.status(201).send({
+        id: fileDataDb._id,
+        userId: fileDataDb.userId,
+        name: fileDataDb.name,
+        type: fileDataDb.type,
+        isPublic: fileDataDb.isPublic,
+        parentId: fileDataDb.parentId
+      });
+    }
 
-//     const pathDir = process.env.FOLDER_PATH || '/tmp/files_manager';
-//     const fileUuid = uuidv4();
+    const pathDir = process.env.FOLDER_PATH || '/tmp/files_manager';
+    const fileUuid = uuidv4();
 
-//     const buff = Buffer.from(fileData, 'base64');
-//     const pathFile = `${pathDir}/${fileUuid}`;
+    const buff = Buffer.from(fileData, 'base64');
+    const pathFile = `${pathDir}/${fileUuid}`;
 
-//     await fs.mkdir(pathDir, { recursive: true }, (error) => {
-//       if (error) return response.status(400).send({ error: error.message });
-//       return true;
-//     });
+    await fs.mkdir(pathDir, { recursive: true }, (error) => {
+      if (error) return response.status(400).send({ error: error.message });
+      return true;
+    });
 
-//     await fs.writeFile(pathFile, buff, (error) => {
-//       if (error) return response.status(400).send({ error: error.message });
-//       return true;
-//     });
+    await fs.writeFile(pathFile, buff, (error) => {
+      if (error) return response.status(400).send({ error: error.message });
+      return true;
+    });
 
-//     fileDataDb.localPath = pathFile;
-//     await DBClient.db.collection('files').insertOne(fileDataDb);
+    fileDataDb.localPath = pathFile;
+    await DBClient.db.collection('files').insertOne(fileDataDb);
 
-//     fileQueue.add({
-//       userId: fileDataDb.userId,
-//       fileId: fileDataDb._id
-//     });
+    fileQueue.add({
+      userId: fileDataDb.userId,
+      fileId: fileDataDb._id
+    });
 
-//     return response.status(201).send({
-//       id: fileDataDb._id,
-//       userId: fileDataDb.userId,
-//       name: fileDataDb.name,
-//       type: fileDataDb.type,
-//       isPublic: fileDataDb.isPublic,
-//       parentId: fileDataDb.parentId
-//     });
-//   }
+    return response.status(201).send({
+      id: fileDataDb._id,
+      userId: fileDataDb.userId,
+      name: fileDataDb.name,
+      type: fileDataDb.type,
+      isPublic: fileDataDb.isPublic,
+      parentId: fileDataDb.parentId
+    });
+  }
 
 //   static async getShow (request, response) {
 //     const token = request.header('X-Token') || null;
@@ -249,6 +249,6 @@ class FilesController {
 //       return response.status(404).send({ error: 'Not found' });
 //     }
   }
-}
+// }
 
 module.exports = FilesController;
