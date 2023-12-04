@@ -92,74 +92,73 @@ class FilesController {
     });
   }
 
-//   static async getShow (request, response) {
-//     const token = request.header('X-Token') || null;
-//     if (!token) return response.status(401).send({ error: 'Unauthorized' });
+  static async getShow (request, response) {
+    const token = request.header('X-Token') || null;
+    if (!token) return response.status(401).send({ error: 'Unauthorized' });
 
-//     const redisToken = await RedisClient.get(`auth_${token}`);
-//     if (!redisToken) return response.status(401).send({ error: 'Unauthorized' });
+    const redisToken = await RedisClient.get(`auth_${token}`);
+    if (!redisToken) return response.status(401).send({ error: 'Unauthorized' });
 
-//     const user = await DBClient.db.collection('users').findOne({ _id: ObjectId(redisToken) });
-//     if (!user) return response.status(401).send({ error: 'Unauthorized' });
+    const user = await DBClient.db.collection('users').findOne({ _id: ObjectId(redisToken) });
+    if (!user) return response.status(401).send({ error: 'Unauthorized' });
 
-//     const idFile = request.params.id || '';
-//     // if (!idFile) return response.status(404).send({ error: 'Not found' });
+    const idFile = request.params.id || '';
+    // if (!idFile) return response.status(404).send({ error: 'Not found' });
 
-//     const fileDocument = await DBClient.db.collection('files').findOne({ _id: ObjectId(idFile), userId: user._id });
-//     if (!fileDocument) return response.status(404).send({ error: 'Not found' });
+    const fileDocument = await DBClient.db.collection('files').findOne({ _id: ObjectId(idFile), userId: user._id });
+    if (!fileDocument) return response.status(404).send({ error: 'Not found' });
 
-//     return response.send({
-//       id: fileDocument._id,
-//       userId: fileDocument.userId,
-//       name: fileDocument.name,
-//       type: fileDocument.type,
-//       isPublic: fileDocument.isPublic,
-//       parentId: fileDocument.parentId
-//     });
-//   }
+    return response.send({
+      id: fileDocument._id,
+      userId: fileDocument.userId,
+      name: fileDocument.name,
+      type: fileDocument.type,
+      isPublic: fileDocument.isPublic,
+      parentId: fileDocument.parentId
+    });
+  }
 
-//   static async getIndex (request, response) {
-//     const token = request.header('X-Token') || null;
-//     if (!token) return response.status(401).send({ error: 'Unauthorized' });
+  static async getIndex (request, response) {
+    const token = request.header('X-Token') || null;
+    if (!token) return response.status(401).send({ error: 'Unauthorized' });
 
-//     const redisToken = await RedisClient.get(`auth_${token}`);
-//     if (!redisToken) return response.status(401).send({ error: 'Unauthorized' });
+    const redisToken = await RedisClient.get(`auth_${token}`);
+    if (!redisToken) return response.status(401).send({ error: 'Unauthorized' });
 
-//     const user = await DBClient.db.collection('users').findOne({ _id: ObjectId(redisToken) });
-//     if (!user) return response.status(401).send({ error: 'Unauthorized' });
+    const user = await DBClient.db.collection('users').findOne({ _id: ObjectId(redisToken) });
+    if (!user) return response.status(401).send({ error: 'Unauthorized' });
 
-//     const parentId = request.query.parentId || 0;
-//     // parentId = parentId === '0' ? 0 : parentId;
+    const parentId = request.query.parentId || 0;
+    // parentId = parentId === '0' ? 0 : parentId;
 
-//     const pagination = request.query.page || 0;
-//     // pagination = Number.isNaN(pagination) ? 0 : pagination;
-//     // pagination = pagination < 0 ? 0 : pagination;
+    const pagination = request.query.page || 0;
+    // pagination = Number.isNaN(pagination) ? 0 : pagination;
+    // pagination = pagination < 0 ? 0 : pagination;
 
-//     const aggregationMatch = { $and: [{ parentId }] };
-//     let aggregateData = [{ $match: aggregationMatch }, { $skip: pagination * 20 }, { $limit: 20 }];
-//     if (parentId === 0) aggregateData = [{ $skip: pagination * 20 }, { $limit: 20 }];
+    const aggregationMatch = { $and: [{ parentId }] };
+    let aggregateData = [{ $match: aggregationMatch }, { $skip: pagination * 20 }, { $limit: 20 }];
+    if (parentId === 0) aggregateData = [{ $skip: pagination * 20 }, { $limit: 20 }];
 
-//     const files = await DBClient.db.collection('files').aggregate(aggregateData);
-//     const filesArray = [];
-//     await files.forEach((item) => {
-//       const fileItem = {
-//         id: item._id,
-//         userId: item.userId,
-//         name: item.name,
-//         type: item.type,
-//         isPublic: item.isPublic,
-//         parentId: item.parentId
-//       };
-//       filesArray.push(fileItem);
-//     });
+    const files = await DBClient.db.collection('files').aggregate(aggregateData);
+    const filesArray = [];
+    await files.forEach((item) => {
+      const fileItem = {
+        id: item._id,
+        userId: item.userId,
+        name: item.name,
+        type: item.type,
+        isPublic: item.isPublic,
+        parentId: item.parentId
+      };
+      filesArray.push(fileItem);
+    });
 
-//     return response.send(filesArray);
-//   }
+    return response.send(filesArray);
+  }
 
 //   static async putPublish (request, response) {
 //     const token = request.header('X-Token') || null;
 //     if (!token) return response.status(401).send({ error: 'Unauthorized' });
-
 //     const redisToken = await RedisClient.get(`auth_${token}`);
 //     if (!redisToken) return response.status(401).send({ error: 'Unauthorized' });
 
