@@ -30,4 +30,4 @@ router.get('/stats', AppController.getStats);
 
 // router.get('/files/:id/data', FilesController.getFile);
 
-// module.exports = router;
+module.exports = router;
