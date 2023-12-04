@@ -248,7 +248,7 @@ class FilesController {
 //     } catch (error) {
 //       return response.status(404).send({ error: 'Not found' });
 //     }
-//   }
-// }
+  }
+}
 
 module.exports = FilesController;
